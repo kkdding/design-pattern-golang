@@ -38,6 +38,13 @@ func (t *TaoBao) Run() {
 	fmt.Printf("TaoBao-%s is running\n", t.version)
 }
 
+// UnknownApp 未支持的App
+type UnknownApp struct{}
+
+func (u *UnknownApp) Run() {
+	fmt.Println("不支持的app")
+}
+
 // ----- 工厂模块 -----
 
 // AppFactory 工厂类
@@ -52,8 +59,7 @@ func (fac *AppFactory) Create(appName string, version string) App {
 	case "TaoBao":
 		return &TaoBao{version: version}
 	default:
-		fmt.Println("不支持的app")
-		return nil
+		return &UnknownApp{}
 	}
 }
 
@@ -70,4 +76,7 @@ func main() {
 
 	taobao := factory.Create("TaoBao", "1.0.0")
 	taobao.Run()
+
+	x := factory.Create("X", "1.0.0")
+	x.Run()
 }
